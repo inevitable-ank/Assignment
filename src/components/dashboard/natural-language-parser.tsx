@@ -1,8 +1,6 @@
 
 
-import type React from "react"
-
-import { useState } from "react"
+import { useState, type ChangeEvent } from "react"
 
 interface ParsedTask {
   title: string
@@ -69,7 +67,7 @@ export default function NaturalLanguageParser({ onTaskParsed, isLoading }: Natur
     return task
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setInput(value)
     if (value.trim()) {

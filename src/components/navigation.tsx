@@ -1,5 +1,5 @@
 
-import { useState } from "react"
+import { useState, type MouseEvent } from "react"
 
 interface NavigationProps {
   user: { id: string; username: string; email: string } | null
@@ -14,7 +14,7 @@ export default function Navigation({ user }: NavigationProps) {
     window.location.href = "/"
   }
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleLinkClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault()
     window.location.href = href
   }

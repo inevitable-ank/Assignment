@@ -1,11 +1,6 @@
 
 
-import type React from "react"
-
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { useState, type DragEvent } from "react"
 
 interface Task {
   id: string
@@ -24,25 +19,8 @@ interface KanbanBoardProps {
   onDeleteTask: (id: string) => void
 }
 
-const taskSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().optional(),
-  priority: z.enum(["low", "medium", "high"]).optional(),
-  recurrence: z.enum(["none", "daily", "weekly", "monthly"]).optional(),
-})
-
-type TaskFormData = z.infer<typeof taskSchema>
-
 export default function KanbanBoard({ tasks, onUpdateTask, onDeleteTask }: KanbanBoardProps) {
   const [draggedTask, setDraggedTask] = useState<Task | null>(null)
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<TaskFormData>({
-    resolver: zodResolver(taskSchema),
-  })
 
   const columns = [
     { id: "pending", title: "To Do", color: "from-blue-500 to-blue-600" },
@@ -52,7 +30,7 @@ export default function KanbanBoard({ tasks, onUpdateTask, onDeleteTask }: Kanba
 
   const handleDragStart = (task: Task) => setDraggedTask(task)
 
-  const handleDragOver = (e: React.DragEvent) => e.preventDefault()
+  const handleDragOver = (e: DragEvent) => e.preventDefault()
 
   const handleDrop = (columnId: string) => {
     if (draggedTask && draggedTask.status !== columnId) {

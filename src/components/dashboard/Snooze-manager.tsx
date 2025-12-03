@@ -1,6 +1,5 @@
 
 
-import { useState } from "react"
 
 interface Task {
   id: string
@@ -13,40 +12,7 @@ interface SnoozeManagerProps {
   onSnoozeTask: (id: string, until: Date) => void
 }
 
-export default function SnoozeManager({ tasks, onSnoozeTask }: SnoozeManagerProps) {
-  const [openSnoozeId, setOpenSnoozeId] = useState<string | null>(null)
-
-  const snoozeOptions = [
-    { label: "5 minutes", minutes: 5 },
-    { label: "1 hour", minutes: 60 },
-    {
-      label: "Tomorrow 9am",
-      custom: () => {
-        const tomorrow = new Date()
-        tomorrow.setDate(tomorrow.getDate() + 1)
-        tomorrow.setHours(9, 0, 0, 0)
-        return tomorrow
-      },
-    },
-    {
-      label: "Next Monday",
-      custom: () => {
-        const monday = new Date()
-        const day = monday.getDay()
-        const daysToMonday = (8 - day) % 7 || 7
-        monday.setDate(monday.getDate() + daysToMonday)
-        monday.setHours(9, 0, 0, 0)
-        return monday
-      },
-    },
-  ]
-
-  const handleSnooze = (taskId: string, minutes?: number, customDate?: Date) => {
-    const now = new Date()
-    const until = customDate || new Date(now.getTime() + (minutes || 5) * 60000)
-    onSnoozeTask(taskId, until)
-    setOpenSnoozeId(null)
-  }
+export default function SnoozeManager({ tasks, onSnoozeTask: _onSnoozeTask }: SnoozeManagerProps) {
 
   const snoozedTasks = tasks.filter((t) => t.snoozedUntil)
 

@@ -1,7 +1,5 @@
 
-import type React from "react"
-
-import { useState } from "react"
+import { useState, type CSSProperties } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -28,7 +26,7 @@ interface TaskCardProps {
   onCancel: () => void
   onUpdate: (id: string, updates: Partial<Task>) => void
   onDelete: (id: string) => void
-  style?: React.CSSProperties
+  style?: CSSProperties
 }
 
 export default function TaskCard({ task, isEditing, onEdit, onCancel, onUpdate, onDelete, style }: TaskCardProps) {
