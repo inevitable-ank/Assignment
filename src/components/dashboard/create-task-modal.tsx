@@ -42,10 +42,10 @@ export default function CreateTaskModal({ onClose, onCreate }: CreateTaskModalPr
   return (
     <>
       {/* Backdrop */}
-      <div onClick={onClose} className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 animate-fadeInUp" />
+      <div onClick={onClose} className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[110] animate-fadeInUp" />
 
       {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-card border-2 border-primary/20 shadow-2xl shadow-primary/10 rounded-2xl p-8 space-y-6 animate-scaleIn">
           <div>
             <h2 className="text-2xl font-bold gradient-text mb-2">Create New Task</h2>
