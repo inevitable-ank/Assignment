@@ -1,5 +1,5 @@
 
-import { useMemo } from "react"
+import { useMemo, type ReactNode } from "react"
 
 interface Task {
   id: string
@@ -44,7 +44,7 @@ export default function AnalyticsDashboard({ tasks }: AnalyticsDashboardProps) {
   }: { 
     label: string; 
     value: number; 
-    icon: JSX.Element; 
+    icon: ReactNode; 
     color: string; 
     bgColor: string 
   }) => (

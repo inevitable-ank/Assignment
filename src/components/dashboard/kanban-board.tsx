@@ -41,19 +41,6 @@ export default function KanbanBoard({ tasks, onUpdateTask, onDeleteTask }: Kanba
 
   const getTasksByStatus = (status: string) => tasks.filter((task) => task.status === status)
 
-  const getPriorityColor = (priority?: string) => {
-    switch (priority) {
-      case "high":
-        return "text-red-500"
-      case "medium":
-        return "text-yellow-500"
-      case "low":
-        return "text-green-500"
-      default:
-        return "text-gray-500"
-    }
-  }
-
   return (
     <div className="w-full overflow-x-auto pb-4">
       <div className="grid grid-cols-3 gap-4 min-w-max">
