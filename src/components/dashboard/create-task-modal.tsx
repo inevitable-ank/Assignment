@@ -46,10 +46,10 @@ export default function CreateTaskModal({ onClose, onCreate }: CreateTaskModalPr
 
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="w-full max-w-md glass rounded-2xl p-8 space-y-6 animate-scaleIn">
+        <div className="w-full max-w-md bg-card border-2 border-primary/20 shadow-2xl shadow-primary/10 rounded-2xl p-8 space-y-6 animate-scaleIn">
           <div>
             <h2 className="text-2xl font-bold gradient-text mb-2">Create New Task</h2>
-            <p className="text-foreground/60">Add a new task to your list</p>
+            <p className="text-foreground/70">Add a new task to your list</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -60,7 +60,7 @@ export default function CreateTaskModal({ onClose, onCreate }: CreateTaskModalPr
                 {...register("title")}
                 type="text"
                 placeholder="What needs to be done?"
-                className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary transition-smooth"
+                className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                 autoFocus
               />
               {errors.title && <p className="text-destructive text-sm">{errors.title.message}</p>}
@@ -72,7 +72,7 @@ export default function CreateTaskModal({ onClose, onCreate }: CreateTaskModalPr
               <textarea
                 {...register("description")}
                 placeholder="Add more details..."
-                className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary transition-smooth resize-none"
+                className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
                 rows={4}
               />
               {errors.description && <p className="text-destructive text-sm">{errors.description.message}</p>}
@@ -84,7 +84,7 @@ export default function CreateTaskModal({ onClose, onCreate }: CreateTaskModalPr
                 <label className="block text-sm font-medium text-foreground">Priority</label>
                 <select
                   {...register("priority")}
-                  className="w-full px-4 py-2 rounded-lg bg-input border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-smooth"
+                  className="w-full px-4 py-2 rounded-lg bg-background border-2 border-border text-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                 >
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
@@ -95,7 +95,7 @@ export default function CreateTaskModal({ onClose, onCreate }: CreateTaskModalPr
                 <label className="block text-sm font-medium text-foreground">Recurrence</label>
                 <select
                   {...register("recurrence")}
-                  className="w-full px-4 py-2 rounded-lg bg-input border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-smooth"
+                  className="w-full px-4 py-2 rounded-lg bg-background border-2 border-border text-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                 >
                   <option value="none">None</option>
                   <option value="daily">Daily</option>

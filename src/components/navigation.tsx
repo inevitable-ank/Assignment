@@ -37,8 +37,8 @@ export default function Navigation({ user }: NavigationProps) {
   }
 
   return (
-    <nav className="sticky top-0 z-50 glass border-b border-white/10 backdrop-blur-md">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <nav className="sticky top-0 z-[100] glass border-b border-white/10 backdrop-blur-md">
+      <div className="w-full px-2 py-2 flex items-center justify-between">
         {/* Logo */}
         <a 
           href="/dashboard" 
@@ -59,7 +59,7 @@ export default function Navigation({ user }: NavigationProps) {
         </a>
 
         {/* User Profile */}
-        <div className="relative z-50" ref={profileRef}>
+        <div className="relative" ref={profileRef}>
           <button
             onClick={() => setIsProfileOpen(!isProfileOpen)}
             className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-muted/50 transition-colors"
@@ -83,19 +83,29 @@ export default function Navigation({ user }: NavigationProps) {
 
           {/* Dropdown Menu */}
           {isProfileOpen && (
-            <div className="absolute right-0 mt-2 w-48 glass rounded-xl shadow-2xl overflow-hidden animate-slideInRight z-[60]">
+            <div className="absolute right-0 top-full mt-2 w-48 bg-card border-2 border-primary/20 rounded-xl shadow-2xl shadow-black/20 overflow-hidden animate-slideInRight z-[110]">
               <a
                 href="/dashboard/profile"
                 onClick={(e) => handleLinkClick(e, "/dashboard/profile")}
-                className="block px-4 py-3 hover:bg-muted/50 text-foreground transition-colors border-b border-white/10"
+                className="block px-4 py-3 hover:bg-primary/10 text-foreground transition-colors border-b border-border"
               >
-                Profile Settings
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  Profile Settings
+                </div>
               </a>
               <button
                 onClick={handleLogout}
                 className="w-full text-left px-4 py-3 hover:bg-destructive/10 text-destructive transition-colors font-semibold"
               >
-                Sign Out
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Sign Out
+                </div>
               </button>
             </div>
           )}

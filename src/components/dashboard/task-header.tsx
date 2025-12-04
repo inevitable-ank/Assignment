@@ -8,7 +8,7 @@ interface TaskHeaderProps {
 
 export default function TaskHeader({ taskCount, completedCount, onCreateTask }: TaskHeaderProps) {
   return (
-    <div className="glass rounded-2xl p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 animate-fadeInUp">
+    <div className="glass rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 animate-fadeInUp">
       <div>
         <h1 className="text-4xl font-bold gradient-text mb-2">My Tasks</h1>
         <p className="text-foreground/60">

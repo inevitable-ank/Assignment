@@ -166,7 +166,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-background">
       <Navigation user={user} />
 
-      <main className="max-w-7xl mx-auto px-4 py-8 relative z-10">
+      <main className="w-full px-2 py-4 relative z-10">
         <div className="animate-fadeInUp">
           <TaskHeader
             taskCount={tasks.length}
@@ -174,7 +174,7 @@ export default function DashboardPage() {
             onCreateTask={() => setIsCreateModalOpen(true)}
           />
 
-          <div className="mt-8 flex gap-2 flex-wrap">
+          <div className="mt-4 flex gap-2 flex-wrap">
             {(["list", "kanban", "analytics", "sessions"] as const).map((v) => (
               <button
                 key={v}
@@ -193,14 +193,14 @@ export default function DashboardPage() {
             ))}
           </div>
 
-          <div className="mt-8 glass rounded-2xl p-6">
+          <div className="mt-4 glass rounded-2xl p-4">
             <h3 className="font-bold text-foreground mb-4">Quick Add Task</h3>
             <NaturalLanguageParser onTaskParsed={handleNaturalLanguageParse} isLoading={isParsingTask} />
           </div>
 
           {view === "list" && (
             <>
-              <div className="mt-8 flex gap-3 flex-wrap">
+              <div className="mt-4 flex gap-3 flex-wrap">
                 {(["all", "pending", "completed"] as const).map((status) => (
                   <button
                     key={status}
@@ -225,19 +225,19 @@ export default function DashboardPage() {
           )}
 
           {view === "kanban" && (
-            <div className="mt-8">
+            <div className="mt-4">
               <KanbanBoard tasks={tasks} onUpdateTask={handleUpdateTask} onDeleteTask={handleDeleteTask} />
             </div>
           )}
 
           {view === "analytics" && (
-            <div className="mt-8">
+            <div className="mt-4">
               <AnalyticsDashboard tasks={tasks} />
             </div>
           )}
 
           {view === "sessions" && (
-            <div className="mt-8 max-w-2xl">
+            <div className="mt-4 max-w-2xl">
               <SessionManager user={user} />
             </div>
           )}
