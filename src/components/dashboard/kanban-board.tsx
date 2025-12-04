@@ -23,9 +23,9 @@ export default function KanbanBoard({ tasks, onUpdateTask, onDeleteTask }: Kanba
   const [draggedTask, setDraggedTask] = useState<Task | null>(null)
 
   const columns = [
-    { id: "pending", title: "To Do", color: "from-blue-500 to-blue-600" },
-    { id: "in-progress", title: "In Progress", color: "from-purple-500 to-purple-600" },
-    { id: "completed", title: "Done", color: "from-green-500 to-green-600" },
+    { id: "pending", title: "To Do", color: "from-blue-500 to-blue-600", bgColor: "bg-blue-50 dark:bg-blue-950/30", borderColor: "border-blue-200 dark:border-blue-800" },
+    { id: "in-progress", title: "In Progress", color: "from-purple-500 to-purple-600", bgColor: "bg-purple-50 dark:bg-purple-950/30", borderColor: "border-purple-200 dark:border-purple-800" },
+    { id: "completed", title: "Done", color: "from-green-500 to-green-600", bgColor: "bg-green-50 dark:bg-green-950/30", borderColor: "border-green-200 dark:border-green-800" },
   ]
 
   const handleDragStart = (task: Task) => setDraggedTask(task)
@@ -62,21 +62,21 @@ export default function KanbanBoard({ tasks, onUpdateTask, onDeleteTask }: Kanba
             key={column.id}
             onDragOver={handleDragOver}
             onDrop={() => handleDrop(column.id)}
-            className="w-96 glass rounded-2xl p-4 min-h-96 flex flex-col space-y-3 hover:bg-white/15 dark:hover:bg-white/8 transition-smooth"
+            className={`w-96 ${column.bgColor} border-2 ${column.borderColor} rounded-2xl p-4 min-h-96 flex flex-col space-y-3 shadow-md hover:shadow-xl transition-all`}
           >
             {/* Column Header */}
-            <div className="flex items-center gap-2 mb-2">
-              <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${column.color}`} />
-              <h3 className="font-bold text-foreground">{column.title}</h3>
-              <span className="ml-auto px-2 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary">
+            <div className="flex items-center gap-2 mb-2 pb-3 border-b-2 border-border">
+              <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${column.color} shadow-sm`} />
+              <h3 className="font-bold text-foreground text-base">{column.title}</h3>
+              <span className="ml-auto px-2.5 py-1 rounded-full text-xs font-bold bg-card border border-border text-foreground shadow-sm">
                 {getTasksByStatus(column.id).length}
               </span>
             </div>
 
             {/* Tasks Container */}
-            <div className="flex-1 space-y-2 overflow-y-auto">
+            <div className="flex-1 space-y-3 overflow-y-auto">
               {getTasksByStatus(column.id).length === 0 ? (
-                <div className="flex items-center justify-center h-32 text-foreground/40 text-sm rounded-lg border-2 border-dashed border-border">
+                <div className="flex items-center justify-center h-32 text-foreground/40 text-sm rounded-lg border-2 border-dashed border-border bg-card/50">
                   Drop tasks here
                 </div>
               ) : (
@@ -85,33 +85,39 @@ export default function KanbanBoard({ tasks, onUpdateTask, onDeleteTask }: Kanba
                     key={task.id}
                     draggable
                     onDragStart={() => handleDragStart(task)}
-                    className="glass rounded-lg p-3 cursor-move hover:shadow-lg transition-smooth transform hover:scale-105 group"
+                    className="bg-card border-2 border-border rounded-lg p-4 cursor-move hover:shadow-lg hover:border-primary/40 transition-all transform hover:scale-[1.02] group"
                   >
                     <div className="flex items-start gap-2">
                       <div className="flex-1">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <h4 className="font-semibold text-sm text-foreground">{task.title}</h4>
                           {task.priority && (
-                            <span className={`text-xs font-bold ${getPriorityColor(task.priority)}`}>
+                            <span className={`text-xs font-bold px-2 py-0.5 rounded ${
+                              task.priority === "high" 
+                                ? "bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400" 
+                                : task.priority === "medium" 
+                                ? "bg-yellow-100 dark:bg-yellow-950/50 text-yellow-600 dark:text-yellow-400" 
+                                : "bg-green-100 dark:bg-green-950/50 text-green-600 dark:text-green-400"
+                            }`}>
                               {task.priority.toUpperCase()}
                             </span>
                           )}
                         </div>
                         {task.description && (
-                          <p className="text-xs text-foreground/60 mt-1 line-clamp-2">{task.description}</p>
+                          <p className="text-xs text-foreground/70 mt-2 line-clamp-2">{task.description}</p>
                         )}
                         {task.dueDate && (
-                          <p className="text-xs text-primary mt-2">{new Date(task.dueDate).toLocaleDateString()}</p>
+                          <p className="text-xs text-primary font-medium mt-2">📅 {new Date(task.dueDate).toLocaleDateString()}</p>
                         )}
                         {task.recurrence && task.recurrence !== "none" && (
-                          <div className="mt-2 inline-block px-2 py-1 rounded text-xs bg-accent/20 text-accent font-semibold capitalize">
-                            {task.recurrence}
+                          <div className="mt-2 inline-block px-2 py-1 rounded text-xs bg-accent/20 text-accent font-semibold capitalize border border-accent/30">
+                            🔄 {task.recurrence}
                           </div>
                         )}
                       </div>
                       <button
                         onClick={() => onDeleteTask(task.id)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:bg-destructive/10 p-1 rounded"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:bg-destructive/20 p-1.5 rounded"
                       >
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                           <path
