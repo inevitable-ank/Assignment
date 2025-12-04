@@ -1,12 +1,17 @@
 
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getApiUrl, API_ENDPOINTS, handleApiResponse } from "@/config/api"
 
 interface Session {
   id: string
   device: string
-  location: string
-  lastActive: Date
+  browser?: string
+  os?: string
+  ipAddress?: string
+  location?: string
+  lastActive: string
+  createdAt: string
   current: boolean
 }
 
@@ -15,32 +20,117 @@ interface SessionManagerProps {
 }
 
 export default function SessionManager({ user }: SessionManagerProps) {
-  const [sessions, setSessions] = useState<Session[]>([
-    {
-      id: "1",
-      device: "Chrome on MacBook Pro",
-      location: "San Francisco, CA",
-      lastActive: new Date(),
-      current: true,
-    },
-    {
-      id: "2",
-      device: "Safari on iPhone",
-      location: "San Francisco, CA",
-      lastActive: new Date(Date.now() - 3600000),
-      current: false,
-    },
-    {
-      id: "3",
-      device: "Chrome on Windows",
-      location: "New York, NY",
-      lastActive: new Date(Date.now() - 86400000),
-      current: false,
-    },
-  ])
+  const [sessions, setSessions] = useState<Session[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isRevoking, setIsRevoking] = useState<string | null>(null)
+  const [isRevokingAll, setIsRevokingAll] = useState(false)
+  const [error, setError] = useState("")
 
-  const handleRevokeSession = (id: string) => {
-    setSessions(sessions.filter((s) => s.id !== id))
+  useEffect(() => {
+    fetchSessions()
+  }, [])
+
+  const fetchSessions = async () => {
+    const token = localStorage.getItem("token")
+    if (!token) return
+
+    try {
+      setIsLoading(true)
+      const response = await fetch(getApiUrl(API_ENDPOINTS.SESSIONS.LIST), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      await handleApiResponse(response)
+
+      if (response.ok) {
+        const data = await response.json()
+        setSessions(data.sessions)
+      } else {
+        setError("Failed to load sessions")
+      }
+    } catch (err) {
+      console.error("Failed to fetch sessions:", err)
+      if (err instanceof Error && err.message !== 'Session revoked') {
+        setError("Failed to load sessions")
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleRevokeSession = async (id: string) => {
+    const token = localStorage.getItem("token")
+    if (!token) return
+
+    const session = sessions.find(s => s.id === id)
+    if (!session) return
+
+    if (!confirm(`Are you sure you want to revoke the session from "${session.device}"? This will sign out that device.`)) {
+      return
+    }
+
+    try {
+      setIsRevoking(id)
+      const response = await fetch(getApiUrl(API_ENDPOINTS.SESSIONS.REVOKE(id)), {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      if (response.ok) {
+        setSessions(sessions.filter((s) => s.id !== id))
+        setError("") // Clear any previous errors
+      } else {
+        setError("Failed to revoke session")
+      }
+    } catch (err) {
+      console.error("Failed to revoke session:", err)
+      setError("Failed to revoke session")
+    } finally {
+      setIsRevoking(null)
+    }
+  }
+
+  const handleRevokeAllSessions = async () => {
+    const token = localStorage.getItem("token")
+    if (!token) return
+
+    const otherSessionsCount = sessions.filter(s => !s.current).length
+    
+    if (otherSessionsCount === 0) {
+      alert("You don't have any other active sessions to revoke. This is your only active session.")
+      return
+    }
+
+    if (!confirm(`Are you sure you want to sign out from all ${otherSessionsCount} other device${otherSessionsCount > 1 ? 's' : ''}? Your current session will remain active.`)) {
+      return
+    }
+
+    try {
+      setIsRevokingAll(true)
+      const response = await fetch(getApiUrl(API_ENDPOINTS.SESSIONS.REVOKE_ALL), {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        await fetchSessions() // Refresh the list
+        alert(`Successfully signed out from ${data.count} other device${data.count > 1 ? 's' : ''}.`)
+      } else {
+        setError("Failed to revoke sessions")
+      }
+    } catch (err) {
+      console.error("Failed to revoke all sessions:", err)
+      setError("Failed to revoke sessions")
+    } finally {
+      setIsRevokingAll(false)
+    }
   }
 
   const getDeviceIcon = (device: string) => {
@@ -65,8 +155,22 @@ export default function SessionManager({ user }: SessionManagerProps) {
     }
   }
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6 animate-slideInRight">
+      {error && (
+        <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm">
+          {error}
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5 border-2 border-primary/20 rounded-2xl p-6 shadow-xl">
         <div className="flex items-center justify-between">
@@ -98,6 +202,17 @@ export default function SessionManager({ user }: SessionManagerProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Sessions List */}
         <div className="lg:col-span-2 space-y-4">
+        {sessions.filter(s => !s.current).length === 0 && (
+          <div className="bg-blue-500/10 border-2 border-blue-500/30 rounded-xl p-4 flex items-start gap-3">
+            <svg className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <p className="text-sm font-semibold text-blue-700 dark:text-blue-400 mb-1">No Other Active Sessions</p>
+              <p className="text-xs text-blue-600/80 dark:text-blue-400/80">You're only signed in on this device. Other sessions will appear here when you sign in from different devices or browsers.</p>
+            </div>
+          </div>
+        )}
         {sessions.map((session) => (
           <div
             key={session.id}
@@ -129,20 +244,21 @@ export default function SessionManager({ user }: SessionManagerProps) {
                 </div>
                 
                 <div className="space-y-1.5">
-                  <div className="flex items-center gap-2 text-sm text-foreground/70">
-                    <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span className="font-medium">{session.location}</span>
-                  </div>
+                  {session.ipAddress && (
+                    <div className="flex items-center gap-2 text-sm text-foreground/70">
+                      <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                      </svg>
+                      <span className="font-medium">{session.ipAddress}</span>
+                    </div>
+                  )}
                   
                   <div className="flex items-center gap-2 text-xs text-foreground/60">
                     <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <span className="font-medium">
-                      Last active: {session.lastActive.toLocaleString('en-US', { 
+                      Last active: {new Date(session.lastActive).toLocaleString('en-US', { 
                         month: 'short', 
                         day: 'numeric', 
                         hour: '2-digit', 
@@ -157,11 +273,16 @@ export default function SessionManager({ user }: SessionManagerProps) {
               {!session.current && (
                 <button
                   onClick={() => handleRevokeSession(session.id)}
-                  className="opacity-0 group-hover:opacity-100 transition-all px-4 py-2 rounded-lg text-sm text-destructive hover:bg-destructive/10 font-semibold border border-destructive/30 hover:border-destructive/50 flex items-center gap-2"
+                  disabled={isRevoking === session.id}
+                  className="opacity-0 group-hover:opacity-100 transition-all px-4 py-2 rounded-lg text-sm text-destructive hover:bg-destructive/10 font-semibold border border-destructive/30 hover:border-destructive/50 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  {isRevoking === session.id ? (
+                    <div className="w-4 h-4 border-2 border-destructive border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  )}
                   Revoke
                 </button>
               )}
@@ -235,14 +356,27 @@ export default function SessionManager({ user }: SessionManagerProps) {
               </div>
               <div className="flex-1">
                 <h4 className="font-semibold text-foreground mb-1">Danger Zone</h4>
-                <p className="text-xs text-foreground/70 mb-3">Sign out from all other devices</p>
+                <p className="text-xs text-foreground/70 mb-3">Sign out from all other devices. Your current session will remain active.</p>
               </div>
             </div>
-            <button className="w-full px-4 py-2.5 rounded-lg bg-destructive hover:bg-destructive/90 text-destructive-foreground font-semibold transition-all hover:shadow-lg hover:shadow-destructive/30 flex items-center justify-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-              Sign Out All
+            <button 
+              onClick={handleRevokeAllSessions}
+              disabled={isRevokingAll || sessions.filter(s => !s.current).length === 0}
+              className="w-full px-4 py-2.5 rounded-lg bg-destructive hover:bg-destructive/90 text-destructive-foreground font-semibold transition-all hover:shadow-lg hover:shadow-destructive/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isRevokingAll ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-destructive-foreground/30 border-t-destructive-foreground rounded-full animate-spin" />
+                  Signing Out...
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Sign Out All Other Devices {sessions.filter(s => !s.current).length > 0 && `(${sessions.filter(s => !s.current).length})`}
+                </>
+              )}
             </button>
           </div>
         </div>

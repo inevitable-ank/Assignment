@@ -193,10 +193,12 @@ export default function DashboardPage() {
             ))}
           </div>
 
-          <div className="mt-4 glass rounded-2xl p-4">
-            <h3 className="font-bold text-foreground mb-4">Quick Add Task</h3>
-            <NaturalLanguageParser onTaskParsed={handleNaturalLanguageParse} isLoading={isParsingTask} />
-          </div>
+          {(view === "list" || view === "kanban") && (
+            <div className="mt-4 glass rounded-2xl p-4">
+              <h3 className="font-bold text-foreground mb-4">Quick Add Task</h3>
+              <NaturalLanguageParser onTaskParsed={handleNaturalLanguageParse} isLoading={isParsingTask} />
+            </div>
+          )}
 
           {view === "list" && (
             <>

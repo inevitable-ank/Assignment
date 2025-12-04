@@ -17,6 +17,24 @@ export const getApiUrl = (endpoint: string): string => {
 }
 
 /**
+ * Handle API response and check for revoked sessions
+ */
+export const handleApiResponse = async (response: Response) => {
+  if (response.status === 401) {
+    const data = await response.json().catch(() => ({}))
+    // Check if session was revoked
+    if (data.message?.includes('revoked')) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      alert('Your session has been revoked from another device. Please sign in again.')
+      window.location.href = '/auth/login'
+      throw new Error('Session revoked')
+    }
+  }
+  return response
+}
+
+/**
  * API endpoints
  */
 export const API_ENDPOINTS = {
@@ -32,6 +50,11 @@ export const API_ENDPOINTS = {
     CREATE: '/api/tasks',
     UPDATE: (id: string) => `/api/tasks/${id}`,
     DELETE: (id: string) => `/api/tasks/${id}`,
+  },
+  SESSIONS: {
+    LIST: '/api/sessions',
+    REVOKE: (id: string) => `/api/sessions/${id}`,
+    REVOKE_ALL: '/api/sessions/revoke-all',
   },
 } as const
 
