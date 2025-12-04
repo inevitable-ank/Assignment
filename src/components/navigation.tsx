@@ -1,5 +1,5 @@
 
-import { useState, type MouseEvent } from "react"
+import { useState, useEffect, useRef, type MouseEvent } from "react"
 
 interface NavigationProps {
   user: { id: string; username: string; email: string } | null
@@ -7,6 +7,23 @@ interface NavigationProps {
 
 export default function Navigation({ user }: NavigationProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const profileRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: globalThis.MouseEvent) => {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false)
+      }
+    }
+
+    if (isProfileOpen) {
+      document.addEventListener("mousedown", handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [isProfileOpen])
 
   const handleLogout = () => {
     localStorage.removeItem("token")
@@ -20,7 +37,7 @@ export default function Navigation({ user }: NavigationProps) {
   }
 
   return (
-    <nav className="sticky top-0 z-40 glass border-b border-white/10">
+    <nav className="sticky top-0 z-50 glass border-b border-white/10 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <a 
@@ -42,7 +59,7 @@ export default function Navigation({ user }: NavigationProps) {
         </a>
 
         {/* User Profile */}
-        <div className="relative">
+        <div className="relative z-50" ref={profileRef}>
           <button
             onClick={() => setIsProfileOpen(!isProfileOpen)}
             className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-muted/50 transition-colors"
@@ -66,7 +83,7 @@ export default function Navigation({ user }: NavigationProps) {
 
           {/* Dropdown Menu */}
           {isProfileOpen && (
-            <div className="absolute right-0 mt-2 w-48 glass rounded-xl shadow-2xl overflow-hidden animate-slideInRight">
+            <div className="absolute right-0 mt-2 w-48 glass rounded-xl shadow-2xl overflow-hidden animate-slideInRight z-[60]">
               <a
                 href="/dashboard/profile"
                 onClick={(e) => handleLinkClick(e, "/dashboard/profile")}

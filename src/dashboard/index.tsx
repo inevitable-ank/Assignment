@@ -166,7 +166,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-background">
       <Navigation user={user} />
 
-      <main className="max-w-7xl mx-auto px-4 py-8">
+      <main className="max-w-7xl mx-auto px-4 py-8 relative z-10">
         <div className="animate-fadeInUp">
           <TaskHeader
             taskCount={tasks.length}
