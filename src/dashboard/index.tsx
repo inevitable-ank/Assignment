@@ -237,7 +237,7 @@ export default function DashboardPage() {
           )}
 
           {view === "sessions" && (
-            <div className="mt-4 max-w-2xl">
+            <div className="mt-4">
               <SessionManager user={user} />
             </div>
           )}
