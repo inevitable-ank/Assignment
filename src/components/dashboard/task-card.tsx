@@ -124,12 +124,12 @@ export default function TaskCard({ task, isEditing, onEdit, onCancel, onUpdate, 
               )}
             </button>
             <h3
-              className={`text-lg font-semibold ${task.status === "completed" ? "line-through text-foreground/50" : "text-foreground"}`}
+              className={`text-lg font-semibold leading-tight ${task.status === "completed" ? "line-through text-foreground/50" : "text-foreground"}`}
             >
               {task.title}
             </h3>
             <span
-              className={`px-3 py-1 rounded-full text-xs font-medium ${
+              className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${
                 task.status === "completed" ? "bg-primary/10 text-primary" : "bg-accent/10 text-accent"
               }`}
             >
@@ -137,11 +137,11 @@ export default function TaskCard({ task, isEditing, onEdit, onCancel, onUpdate, 
             </span>
           </div>
           {task.description && (
-            <p className={`ml-9 text-foreground/60 ${task.status === "completed" ? "line-through" : ""}`}>
+            <p className={`ml-9 text-[15px] text-foreground/75 leading-relaxed ${task.status === "completed" ? "line-through" : ""}`}>
               {task.description}
             </p>
           )}
-          <p className="ml-9 text-xs text-foreground/40 mt-2">{formatDate(task.createdAt)}</p>
+          <p className="ml-9 text-xs text-foreground/50 mt-2 font-medium">{formatDate(task.createdAt)}</p>
         </div>
 
         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

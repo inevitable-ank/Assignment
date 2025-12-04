@@ -55,7 +55,7 @@ export default function Navigation({ user }: NavigationProps) {
               />
             </svg>
           </div>
-          <span className="text-xl font-bold gradient-text">TaskFlow</span>
+          <span className="text-xl font-bold gradient-text tracking-tight">TaskFlow</span>
         </a>
 
         {/* User Profile */}
@@ -64,12 +64,12 @@ export default function Navigation({ user }: NavigationProps) {
             onClick={() => setIsProfileOpen(!isProfileOpen)}
             className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-muted/50 transition-colors"
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold text-sm">
               {user?.username?.[0]?.toUpperCase()}
             </div>
             <div className="text-left hidden sm:block">
-              <p className="text-sm font-semibold text-foreground">{user?.username}</p>
-              <p className="text-xs text-foreground/60">{user?.email}</p>
+              <p className="text-sm font-semibold text-foreground leading-tight">{user?.username}</p>
+              <p className="text-xs text-foreground/70 mt-0.5">{user?.email}</p>
             </div>
             <svg
               className={`w-4 h-4 text-foreground/60 transition-transform ${isProfileOpen ? "rotate-180" : ""}`}

@@ -67,7 +67,7 @@ export default function KanbanBoard({ tasks, onUpdateTask, onDeleteTask }: Kanba
             {/* Column Header */}
             <div className="flex items-center gap-2 mb-2 pb-3 border-b-2 border-border">
               <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${column.color} shadow-sm`} />
-              <h3 className="font-bold text-foreground text-base">{column.title}</h3>
+              <h3 className="font-bold text-foreground text-base tracking-tight">{column.title}</h3>
               <span className="ml-auto px-2.5 py-1 rounded-full text-xs font-bold bg-card border border-border text-foreground shadow-sm">
                 {getTasksByStatus(column.id).length}
               </span>
@@ -90,9 +90,9 @@ export default function KanbanBoard({ tasks, onUpdateTask, onDeleteTask }: Kanba
                     <div className="flex items-start gap-2">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <h4 className="font-semibold text-sm text-foreground">{task.title}</h4>
+                          <h4 className="font-semibold text-[15px] text-foreground leading-tight">{task.title}</h4>
                           {task.priority && (
-                            <span className={`text-xs font-bold px-2 py-0.5 rounded ${
+                            <span className={`text-[11px] font-bold px-2 py-0.5 rounded uppercase tracking-wide ${
                               task.priority === "high" 
                                 ? "bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400" 
                                 : task.priority === "medium" 
@@ -104,13 +104,13 @@ export default function KanbanBoard({ tasks, onUpdateTask, onDeleteTask }: Kanba
                           )}
                         </div>
                         {task.description && (
-                          <p className="text-xs text-foreground/70 mt-2 line-clamp-2">{task.description}</p>
+                          <p className="text-[13px] text-foreground/75 mt-2 line-clamp-2 leading-relaxed">{task.description}</p>
                         )}
                         {task.dueDate && (
-                          <p className="text-xs text-primary font-medium mt-2">📅 {new Date(task.dueDate).toLocaleDateString()}</p>
+                          <p className="text-xs text-primary font-semibold mt-2">📅 {new Date(task.dueDate).toLocaleDateString()}</p>
                         )}
                         {task.recurrence && task.recurrence !== "none" && (
-                          <div className="mt-2 inline-block px-2 py-1 rounded text-xs bg-accent/20 text-accent font-semibold capitalize border border-accent/30">
+                          <div className="mt-2 inline-block px-2 py-1 rounded text-[11px] bg-accent/20 text-accent font-bold capitalize border border-accent/30 tracking-wide">
                             🔄 {task.recurrence}
                           </div>
                         )}

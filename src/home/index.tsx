@@ -42,15 +42,15 @@ export default function Home() {
                 />
               </svg>
             </div>
-            <h1 className="text-4xl font-bold gradient-text mb-4">TaskFlow</h1>
-            <p className="text-foreground/70 text-lg">Your modern task management solution</p>
+            <h1 className="text-5xl font-bold gradient-text mb-4 tracking-tight">TaskFlow</h1>
+            <p className="text-foreground/75 text-lg leading-relaxed">Your modern task management solution</p>
           </div>
 
           {/* Glass card */}
           <div className="glass rounded-2xl p-8 mb-8 space-y-6 animate-slideInRight">
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-3">Welcome Back</h2>
-              <p className="text-foreground/60">Manage your tasks with style and efficiency</p>
+              <h2 className="text-2xl font-bold text-foreground mb-3 tracking-tight">Welcome Back</h2>
+              <p className="text-foreground/70 text-base leading-relaxed">Manage your tasks with style and efficiency</p>
             </div>
 
             <div className="space-y-4">
@@ -78,11 +78,11 @@ export default function Home() {
                 <div className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-card text-foreground/50">or continue as guest</span>
+                <span className="px-2 bg-card text-foreground/60 font-medium">or continue as guest</span>
               </div>
             </div>
 
-            <button className="w-full py-3 px-4 rounded-lg bg-muted hover:bg-muted/80 text-foreground font-semibold transition-smooth">
+            <button className="w-full py-3 px-4 rounded-lg bg-muted hover:bg-muted/80 text-foreground font-semibold transition-smooth text-[15px]">
               Explore Demo
             </button>
           </div>
@@ -100,7 +100,7 @@ export default function Home() {
                 style={{ animationDelay: `${i * 0.1}s` }}
               >
                 <div className="text-2xl mb-2">{feature.icon}</div>
-                <p className="text-xs text-foreground/60">{feature.label}</p>
+                <p className="text-xs text-foreground/70 font-medium">{feature.label}</p>
               </div>
             ))}
           </div>

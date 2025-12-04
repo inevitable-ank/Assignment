@@ -53,23 +53,24 @@ export default function AnalyticsDashboard({ tasks }: AnalyticsDashboardProps) {
         <div className={`${color} p-3 rounded-lg bg-white/10 dark:bg-black/20`}>
           {icon}
         </div>
-        <span className={`text-3xl font-bold ${color}`}>{value}</span>
+        <span className={`text-3xl font-bold ${color} tracking-tight`}>{value}</span>
       </div>
-      <p className="text-sm font-medium text-foreground/80">{label}</p>
+      <p className="text-[13px] font-semibold text-foreground/80 leading-tight">{label}</p>
     </div>
   )
 
   return (
     <div className="space-y-6 animate-fadeInUp">
       <div>
-        <h2 className="text-2xl font-bold gradient-text mb-4">Analytics</h2>
+        <h2 className="text-3xl font-bold gradient-text mb-4 tracking-tight">Analytics</h2>
+        <p className="text-foreground/70 text-base">Track your productivity and progress</p>
       </div>
 
       {/* Completion Progress */}
       <div className="glass rounded-2xl p-6 space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-foreground">Overall Completion</h3>
-          <span className="text-lg font-bold gradient-text">{metrics.completionRate}%</span>
+          <h3 className="font-semibold text-foreground text-base">Overall Completion</h3>
+          <span className="text-xl font-bold gradient-text">{metrics.completionRate}%</span>
         </div>
         <div className="w-full bg-muted rounded-full h-3 overflow-hidden">
           <div
@@ -77,7 +78,7 @@ export default function AnalyticsDashboard({ tasks }: AnalyticsDashboardProps) {
             style={{ width: `${metrics.completionRate}%` }}
           />
         </div>
-        <div className="text-xs text-foreground/60">
+        <div className="text-sm text-foreground/70 font-medium">
           {metrics.completed} of {metrics.total} tasks completed
         </div>
       </div>

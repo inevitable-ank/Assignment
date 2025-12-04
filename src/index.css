@@ -137,8 +137,61 @@
 }
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+  
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Typography Improvements */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  p, span, div {
+    line-height: 1.6;
+  }
+
+  /* Better text sizes */
+  .text-xs {
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .text-sm {
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+
+  .text-base {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .text-lg {
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  /* Better readability for input and textarea */
+  input, textarea, select {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  /* Better button text */
+  button {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
   }
 }
 
