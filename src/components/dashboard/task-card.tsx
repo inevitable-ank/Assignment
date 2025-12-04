@@ -62,19 +62,19 @@ export default function TaskCard({ task, isEditing, onEdit, onCancel, onUpdate, 
 
   if (isEditing) {
     return (
-      <div className="glass rounded-xl p-6 animate-scaleIn" style={style}>
+      <div className="bg-card border-2 border-primary/30 shadow-lg rounded-xl p-6 animate-scaleIn" style={style}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <input
             {...register("title")}
             type="text"
-            className="w-full px-4 py-2 rounded-lg bg-input border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 rounded-lg bg-background border-2 border-border text-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
           />
           {errors.title && <p className="text-destructive text-sm">{errors.title.message}</p>}
 
           <textarea
             {...register("description")}
             placeholder="Add description..."
-            className="w-full px-4 py-2 rounded-lg bg-input border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+            className="w-full px-4 py-2 rounded-lg bg-background border-2 border-border text-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
             rows={3}
           />
 
@@ -88,7 +88,7 @@ export default function TaskCard({ task, isEditing, onEdit, onCancel, onUpdate, 
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 px-4 py-2 rounded-lg border border-border text-foreground hover:bg-muted/50 transition-colors"
+              className="flex-1 px-4 py-2 rounded-lg border-2 border-border text-foreground hover:bg-muted/50 transition-colors"
             >
               Cancel
             </button>
@@ -100,7 +100,7 @@ export default function TaskCard({ task, isEditing, onEdit, onCancel, onUpdate, 
 
   return (
     <div
-      className={`glass rounded-xl p-6 group hover:bg-white/15 dark:hover:bg-white/8 transition-smooth cursor-pointer transform hover:scale-105 hover:shadow-lg ${
+      className={`bg-card border-2 border-border rounded-xl p-6 group hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all cursor-pointer transform hover:scale-[1.02] ${
         isDeleting ? "opacity-0 scale-95" : "opacity-100 scale-100"
       }`}
       style={{
