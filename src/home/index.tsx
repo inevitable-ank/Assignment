@@ -72,19 +72,6 @@ export default function Home() {
                 </button>
               </a>
             </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-border" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-card text-foreground/60 font-medium">or continue as guest</span>
-              </div>
-            </div>
-
-            <button className="w-full py-3 px-4 rounded-lg bg-muted hover:bg-muted/80 text-foreground font-semibold transition-smooth text-[15px]">
-              Explore Demo
-            </button>
           </div>
 
           {/* Features */}
