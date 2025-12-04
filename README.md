@@ -612,15 +612,6 @@ This project is licensed under the MIT License.
 
 ---
 
-## 👤 Author
-
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
-- Website: https://yourwebsite.com
-
----
-
 ## 🙏 Acknowledgments
 
 - [React](https://reactjs.org/) - A JavaScript library for building user interfaces
@@ -653,8 +644,6 @@ This project is licensed under the MIT License.
   
   **⭐ Star this repo if you find it helpful!**
   
-  Made with ❤️ and ☕ by [Your Name]
-  
-  [Report Bug](https://github.com/username/repo/issues) • [Request Feature](https://github.com/username/repo/issues)
+  Made with ❤️ and ☕
   
 </div>
