@@ -155,7 +155,7 @@
 
 3. **Set up environment variables**
    ```bash
-   cp .env.example .env
+   cp env.example .env
    ```
    Edit `.env` with your configuration:
    ```env
@@ -501,21 +501,6 @@ Set these in your deployment platform:
 
 ## 🧪 Testing
 
-### Manual Testing Checklist
-
-- [ ] ✅ User can register and login
-- [ ] ✅ Tasks can be created, updated, and deleted
-- [ ] ✅ Natural language parser works correctly
-- [ ] ✅ Task filtering works (all, pending, completed)
-- [ ] ✅ Session management displays all devices
-- [ ] ✅ Session revocation works immediately
-- [ ] ✅ "Sign Out All" only affects other devices
-- [ ] ✅ Revoked sessions redirect to login
-- [ ] ✅ Analytics charts display correctly
-- [ ] ✅ Profile can be updated
-- [ ] ✅ Password can be changed
-- [ ] ✅ Responsive on mobile, tablet, desktop
-
 ---
 
 ## 🎯 Performance Optimization
@@ -527,13 +512,6 @@ Set these in your deployment platform:
 3. **Bundle Size** - Tree-shaking unused code
 4. **CSS Purging** - Remove unused TailwindCSS classes
 5. **Caching** - Leverage browser caching
-
-### Lighthouse Scores Target
-
-- **Performance**: 90+
-- **Accessibility**: 95+
-- **Best Practices**: 95+
-- **SEO**: 100
 
 ---
 
@@ -603,40 +581,6 @@ Contributions are welcome! Please follow these steps:
 - [ ] TypeScript types are properly defined
 - [ ] Components are properly documented
 - [ ] Responsive design works on all screen sizes
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-## 🙏 Acknowledgments
-
-- [React](https://reactjs.org/) - A JavaScript library for building user interfaces
-- [Vite](https://vitejs.dev/) - Next generation frontend tooling
-- [TailwindCSS](https://tailwindcss.com/) - Utility-first CSS framework
-- [Lucide](https://lucide.dev/) - Beautiful & consistent icons
-- [Recharts](https://recharts.org/) - Composable charting library
-
----
-
-## 🗺️ Roadmap
-
-- [x] User authentication
-- [x] Task CRUD operations
-- [x] Natural language parsing
-- [x] Session management
-- [x] Analytics dashboard
-- [ ] Drag-and-drop Kanban
-- [ ] Task attachments
-- [ ] Collaborative tasks
-- [ ] Mobile app (React Native)
-- [ ] Dark mode toggle
-- [ ] Email notifications
-- [ ] Task reminders
-- [ ] Export/Import tasks
 
 ---
 
