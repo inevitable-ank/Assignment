@@ -35,7 +35,7 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [filter, setFilter] = useState<"all" | "pending" | "completed">("all")
-  const [view, setView] = useState<ViewType>("kanban")
+  const [view, setView] = useState<ViewType>("list")
   const [isParsingTask, setIsParsingTask] = useState(false)
 
   useEffect(() => {
