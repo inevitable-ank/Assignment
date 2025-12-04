@@ -8,6 +8,7 @@ import KanbanBoard from "@/components/dashboard/kanban-board"
 import NaturalLanguageParser from "@/components/dashboard/natural-language-parser"
 import AnalyticsDashboard from "@/components/dashboard/analytics-dashboard"
 import SessionManager from "@/components/dashboard/session-manager"
+import { getApiUrl, API_ENDPOINTS } from "@/config/api"
 
 interface Task {
   id: string
@@ -52,7 +53,7 @@ export default function DashboardPage() {
 
   const fetchTasks = async (token: string) => {
     try {
-      const response = await fetch("/api/tasks", {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.TASKS.LIST), {
         headers: { Authorization: `Bearer ${token}` },
       })
       if (response.ok) {
@@ -71,7 +72,7 @@ export default function DashboardPage() {
     if (!token) return
 
     try {
-      const response = await fetch("/api/tasks", {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.TASKS.CREATE), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +111,7 @@ export default function DashboardPage() {
     if (!token) return
 
     try {
-      const response = await fetch(`/api/tasks/${id}`, {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.TASKS.UPDATE(id)), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -132,7 +133,7 @@ export default function DashboardPage() {
     if (!token) return
 
     try {
-      const response = await fetch(`/api/tasks/${id}`, {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.TASKS.DELETE(id)), {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       })

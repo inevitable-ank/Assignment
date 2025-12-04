@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { getApiUrl, API_ENDPOINTS } from "@/config/api"
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -29,7 +30,7 @@ export default function LoginPage() {
     setError("")
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.AUTH.LOGIN), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

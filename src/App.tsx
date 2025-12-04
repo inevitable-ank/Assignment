@@ -2,6 +2,7 @@ import Home from './home'
 import LoginPage from './auth/login'
 import RegisterPage from './auth/register'
 import DashboardPage from './dashboard'
+import ProfilePage from './profile'
 import Layout from './components/Layout'
 import './App.css'
 
@@ -21,6 +22,8 @@ function App() {
         return <RegisterPage />
       case '/dashboard':
         return <DashboardPage />
+      case '/dashboard/profile':
+        return <ProfilePage />
       default:
         // If path doesn't match, redirect to home
         return <Home />

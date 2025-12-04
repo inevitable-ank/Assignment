@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { getApiUrl, API_ENDPOINTS } from "@/config/api"
 
 const registerSchema = z
   .object({
@@ -40,7 +41,7 @@ export default function RegisterPage() {
     setError("")
 
     try {
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.AUTH.REGISTER), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
