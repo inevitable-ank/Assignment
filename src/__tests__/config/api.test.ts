@@ -23,10 +23,11 @@ describe('API Config', () => {
       // Test the default logic directly by simulating the function behavior
       // The actual implementation uses: import.meta.env.VITE_API_URL || 'http://localhost:4000'
       // We test that the fallback logic works correctly
-      const API_URL = undefined || 'http://localhost:4000';
+      const API_URL: string | undefined = undefined;
+      const baseUrl = API_URL ?? 'http://localhost:4000';
       const getApiUrlTest = (endpoint: string): string => {
         const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
-        const cleanBaseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
+        const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
         return `${cleanBaseUrl}/${cleanEndpoint}`;
       };
       

@@ -157,7 +157,10 @@ describe('LoginPage', () => {
     // Mock window.location.href
     const originalLocation = window.location;
     delete (window as any).location;
-    window.location = { ...originalLocation, href: '' };
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { ...originalLocation, href: '' },
+    });
 
     render(<LoginPage />);
 
@@ -175,7 +178,10 @@ describe('LoginPage', () => {
     });
 
     // Restore window.location
-    window.location = originalLocation;
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: originalLocation,
+    });
   });
 });
 
