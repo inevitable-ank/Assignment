@@ -501,6 +501,245 @@ Set these in your deployment platform:
 
 ## 🧪 Testing
 
+The frontend uses **Vitest** and **React Testing Library** for comprehensive test coverage.
+
+### Running Tests
+
+```bash
+# Run all tests
+pnpm test
+
+# Run tests in watch mode
+pnpm test --watch
+
+# Run tests with UI
+pnpm test:ui
+
+# Run tests with coverage report
+pnpm test:coverage
+```
+
+### Test Structure
+
+```
+src/__tests__/
+├── App.test.tsx                    # Main app routing tests
+├── home.test.tsx                   # Home page tests
+├── profile.test.tsx                # Profile page tests
+├── auth/
+│   ├── login.test.tsx              # Login form tests
+│   └── register.test.tsx           # Registration form tests
+├── components/
+│   ├── Layout.test.tsx             # Layout component tests
+│   ├── navigation.test.tsx         # Navigation component tests
+│   ├── task-list.test.tsx          # Task list component tests
+│   ├── task-card.test.tsx          # Task card component tests
+│   ├── create-task-modal.test.tsx  # Create task modal tests
+│   ├── natural-language-parser.test.tsx  # NLP parser tests
+│   ├── kanban-board.test.tsx       # Kanban board tests
+│   ├── analytics-dashboard.test.tsx # Analytics dashboard tests
+│   ├── session-manager.test.tsx    # Session management tests
+│   └── task-header.test.tsx        # Task header tests
+└── config/
+    └── api.test.ts                 # API configuration tests
+```
+
+### Test Coverage
+
+#### 🏠 **App Component** (`App.test.tsx`)
+- ✅ Renders home page for root path (`/`)
+- ✅ Renders home page for `/home` path
+- ✅ Renders login page for `/auth/login` path
+- ✅ Renders register page for `/auth/register` path
+- ✅ Renders dashboard page for `/dashboard` path (with auth)
+- ✅ Renders profile page for `/dashboard/profile` path (with auth)
+- ✅ Renders home page for unknown paths (fallback)
+
+#### 🏡 **Home Page** (`home.test.tsx`)
+- ✅ Renders home page with title and description
+- ✅ Displays sign in and create account buttons
+- ✅ Redirects to dashboard if user is logged in
+- ✅ Navigates to login when sign in button is clicked
+- ✅ Navigates to register when create account button is clicked
+- ✅ Displays feature cards (secure auth, fast & smooth, beautiful UI)
+- ✅ Renders welcome message
+
+#### 🔐 **Authentication**
+
+**Login Page** (`auth/login.test.tsx`):
+- ✅ Renders login form with email and password fields
+- ✅ Shows validation error for invalid email
+- ✅ Shows validation error for short password (< 6 characters)
+- ✅ Submits form with valid data
+- ✅ Displays error message on login failure
+- ✅ Toggles password visibility
+- ✅ Stores token and user in localStorage on successful login
+
+**Register Page** (`auth/register.test.tsx`):
+- ✅ Renders registration form with all required fields
+- ✅ Shows validation error for short username (< 3 characters)
+- ✅ Shows validation error for invalid email
+- ✅ Shows validation error for short password (< 8 characters)
+- ✅ Shows validation error when passwords don't match
+- ✅ Submits form with valid data
+- ✅ Displays error message on registration failure
+- ✅ Toggles password visibility for both password fields
+- ✅ Toggles confirm password visibility
+
+#### 👤 **Profile Page** (`profile.test.tsx`)
+- ✅ Redirects to login if no token
+- ✅ Fetches and displays user profile
+- ✅ Displays loading state
+- ✅ Updates profile successfully
+- ✅ Shows validation error for invalid email
+- ✅ Changes password successfully
+- ✅ Shows error when passwords do not match
+- ✅ Toggles password visibility
+
+#### 🧭 **Navigation Component** (`components/navigation.test.tsx`)
+- ✅ Renders navigation with user info
+- ✅ Renders navigation without user
+- ✅ Toggles profile dropdown when clicked
+- ✅ Closes dropdown when clicking outside
+- ✅ Handles logout (clears localStorage)
+- ✅ Navigates to dashboard when logo is clicked
+- ✅ Displays user initial in avatar
+- ✅ Handles user with empty username
+
+#### 📋 **Task Components**
+
+**Task List** (`components/task-list.test.tsx`):
+- ✅ Renders task list with tasks
+- ✅ Displays loading state
+- ✅ Displays empty state when no tasks
+- ✅ Calls onUpdateTask when task status is changed
+- ✅ Calls onDeleteTask when delete button is clicked
+
+**Task Card** (`components/task-card.test.tsx`):
+- ✅ Renders task card with task details
+- ✅ Renders completed task with strikethrough
+- ✅ Shows edit form when isEditing is true
+- ✅ Calls onCancel when cancel button is clicked
+- ✅ Calls onUpdate when form is submitted with valid data
+- ✅ Shows validation error for empty title
+- ✅ Toggles task status when checkbox is clicked
+- ✅ Calls onDelete when delete button is clicked
+- ✅ Calls onEdit when edit button is clicked
+- ✅ Formats date correctly
+- ✅ Handles task without description
+
+**Create Task Modal** (`components/create-task-modal.test.tsx`):
+- ✅ Renders modal with form (title, description, priority, recurrence)
+- ✅ Calls onClose when cancel button is clicked
+- ✅ Calls onClose when backdrop is clicked
+- ✅ Shows validation error for empty title
+- ✅ Submits form with valid data
+- ✅ Submits form with priority and recurrence
+- ✅ Shows validation error for title exceeding max length (100 chars)
+- ✅ Shows validation error for description exceeding max length (500 chars)
+- ✅ Disables submit button while submitting
+
+**Task Header** (`components/task-header.test.tsx`):
+- ✅ Renders task header with counts
+- ✅ Displays zero counts correctly
+- ✅ Calls onCreateTask when button is clicked
+- ✅ Displays all tasks completed message
+
+#### 🧠 **Natural Language Parser** (`components/natural-language-parser.test.tsx`)
+- ✅ Renders input field
+- ✅ Parses task with high priority keyword ("urgent")
+- ✅ Parses task with tomorrow date
+- ✅ Parses task with today date
+- ✅ Calls onTaskParsed when Add Task is clicked
+- ✅ Clears input after adding task
+- ✅ Does not show preview for empty input (spaces only)
+- ✅ Disables button when isLoading is true
+- ✅ Parses medium priority
+- ✅ Parses low priority
+
+#### 📊 **Kanban Board** (`components/kanban-board.test.tsx`)
+- ✅ Renders kanban board with columns (To Do, In Progress, Done)
+- ✅ Displays tasks in correct columns based on status
+- ✅ Displays task counts in column headers
+- ✅ Displays task priority badges
+- ✅ Displays empty state when column has no tasks
+- ✅ Calls onDeleteTask when delete button is clicked
+- ✅ Displays task descriptions when available
+- ✅ Handles tasks without descriptions
+- ✅ Displays due dates when available
+- ✅ Displays recurrence when available
+
+#### 📈 **Analytics Dashboard** (`components/analytics-dashboard.test.tsx`)
+- ✅ Renders analytics dashboard
+- ✅ Displays correct task counts (total, completed, in progress, to do)
+- ✅ Calculates completion rate correctly
+- ✅ Displays high priority count
+- ✅ Displays overdue count
+- ✅ Displays created today count
+- ✅ Handles empty tasks array
+- ✅ Displays all stat cards
+- ✅ Displays progress bar
+- ✅ Does not count completed tasks as overdue
+
+#### 🔒 **Session Manager** (`components/session-manager.test.tsx`)
+- ✅ Renders session manager
+- ✅ Displays loading state
+- ✅ Displays sessions with device information
+- ✅ Displays session stats (total devices, active now, other sessions)
+- ✅ Handles revoke session
+- ✅ Handles revoke all sessions
+- ✅ Displays error message on fetch failure
+- ✅ Marks current session
+
+#### 🎨 **Layout Component** (`components/Layout.test.tsx`)
+- ✅ Renders children
+- ✅ Applies correct CSS classes
+- ✅ Renders multiple children
+
+#### ⚙️ **API Configuration** (`config/api.test.ts`)
+- ✅ Returns correct URL with endpoint
+- ✅ Handles endpoint without leading slash
+- ✅ Uses default localhost URL when VITE_API_URL is not set
+- ✅ Removes trailing slash from base URL
+- ✅ Has correct auth endpoints (register, login, profile, update, password)
+- ✅ Has correct task endpoints (list, create, update, delete)
+- ✅ Has correct session endpoints (list, revoke, revoke-all)
+- ✅ Returns response if status is not 401
+- ✅ Handles revoked session (clears localStorage, redirects)
+- ✅ Does not handle non-revoked 401 errors
+
+### Test Statistics
+
+- **Total Test Files**: 15
+- **Test Categories**:
+  - App & Routing: 1 file
+  - Pages: 2 files (Home, Profile)
+  - Authentication: 2 files (Login, Register)
+  - Components: 10 files
+  - Configuration: 1 file
+
+### Testing Best Practices
+
+1. **Isolation**: Each test is independent and cleans up after itself
+2. **Mocking**: API calls and browser APIs are properly mocked
+3. **Accessibility**: Tests use semantic queries (`getByRole`, `getByLabelText`)
+4. **User Interactions**: Tests simulate real user behavior with `userEvent`
+5. **Async Handling**: Proper use of `waitFor` for async operations
+6. **Edge Cases**: Tests cover validation errors, empty states, and error scenarios
+
+### Coverage Reports
+
+Coverage reports are generated in `my-app/coverage/` directory after running:
+```bash
+pnpm test:coverage
+```
+
+The coverage report includes:
+- Line coverage
+- Function coverage
+- Branch coverage
+- Statement coverage
+
 ---
 
 ## 🎯 Performance Optimization
