@@ -45,3 +45,5 @@ VITE_API_URL=http://localhost:4000
 - **API Not Found**: Verify the backend is running on the port specified in `VITE_API_URL`
 - **Environment Variable Not Working**: Make sure the variable name starts with `VITE_` and restart the dev server
 
+
+

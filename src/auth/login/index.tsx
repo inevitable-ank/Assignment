@@ -96,9 +96,10 @@ export default function LoginPage() {
 
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-foreground">Email</label>
+              <label htmlFor="email" className="block text-sm font-medium text-foreground">Email</label>
               <input
                 {...register("email")}
+                id="email"
                 type="email"
                 placeholder="you@example.com"
                 className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary transition-smooth"
@@ -108,10 +109,11 @@ export default function LoginPage() {
 
             {/* Password Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-foreground">Password</label>
+              <label htmlFor="password" className="block text-sm font-medium text-foreground">Password</label>
               <div className="relative">
                 <input
                   {...register("password")}
+                  id="password"
                   type={isPasswordVisible ? "text" : "password"}
                   placeholder="••••••••"
                   className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary transition-smooth"
@@ -120,6 +122,7 @@ export default function LoginPage() {
                   type="button"
                   onClick={() => setIsPasswordVisible(!isPasswordVisible)}
                   className="absolute right-3 top-3.5 text-foreground/60 hover:text-foreground transition-colors"
+                  aria-label={isPasswordVisible ? "Hide password" : "Show password"}
                 >
                   {isPasswordVisible ? (
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
